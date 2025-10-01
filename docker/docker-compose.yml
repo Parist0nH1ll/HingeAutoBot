@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  hinge-bot:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: hinge-autobot
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DEVICE_IP=${DEVICE_IP:-}
+      - DEVICE_PORT=${DEVICE_PORT:-5555}
+      - BOT_DELAY=${BOT_DELAY:-3}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ../screenshots:/app/screenshots
+      - ../logs:/app/logs
+      - ../config.json:/app/config.json
+    network_mode: host
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
